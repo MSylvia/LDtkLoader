@@ -1,6 +1,8 @@
 // Created by Modar Nasser on 11/11/2020.
 
 #include <fstream>
+#include <sstream>
+#include <iostream>
 
 #include "LDtkLoader/World.hpp"
 #include "LDtkLoader/Utils.hpp"
@@ -8,6 +10,21 @@
 using namespace ldtk;
 
 World::World() = default;
+
+// char* to std::istringstream
+std::istringstream charToIstringstream(char* data) {
+    std::stringstream ss;
+    ss << data;
+    return std::istringstream(ss.str());
+}
+
+void World::loadFromString(unsigned char* json, unsigned int len) {
+    nlohmann::json j;
+    std::istringstream ss = charToIstringstream((char*)json);
+    ss >> j;
+    std::cout << "A3"; 
+    creatFromJsonObj(j);
+}
 
 void World::loadFromFile(const std::string& filepath) {
     m_file_path = filepath;
@@ -17,6 +34,9 @@ void World::loadFromFile(const std::string& filepath) {
     }
     nlohmann::json j;
     in >> j;
+    creatFromJsonObj(j);
+}
+void World::creatFromJsonObj(nlohmann::json& j) {
 
     m_default_pivot.x = j["defaultPivotX"].get<float>();
     m_default_pivot.y = j["defaultPivotY"].get<float>();

@@ -23,6 +23,8 @@ namespace ldtk {
         auto operator=(const World&) -> World& = delete;
 
         void loadFromFile(const std::string& filepath);
+        void loadFromString(unsigned char* json, unsigned int len);
+        void creatFromJsonObj(nlohmann::json& j);
 
         auto getFilePath() const -> const FilePath&;
 
