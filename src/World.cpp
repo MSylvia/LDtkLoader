@@ -11,18 +11,16 @@ using namespace ldtk;
 
 World::World() = default;
 
-// char* to std::istringstream
-std::istringstream charToIstringstream(char* data) {
+std::stringstream to_stringstream(const unsigned char* data, size_t size) {
     std::stringstream ss;
-    ss << data;
-    return std::istringstream(ss.str());
+    ss.write(reinterpret_cast<const char*>(data), size);
+    return ss;
 }
 
 void World::loadFromString(unsigned char* json, unsigned int len) {
     nlohmann::json j;
-    std::istringstream ss = charToIstringstream((char*)json);
+    std::stringstream ss = to_stringstream(json, len);
     ss >> j;
-    std::cout << "A3"; 
     creatFromJsonObj(j);
 }
 
